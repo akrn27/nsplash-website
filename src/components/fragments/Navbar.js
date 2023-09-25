@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({isLogin}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -39,7 +39,7 @@ const Navbar = () => {
           <Link to="/" className="text-black font-semibold text-4xl mb-3 hover:text-gray">
             HOME
           </Link>
-          <Link to="/" className="text-black font-semibold text-4xl mb-3 hover:text-gray">
+          <Link to="/about" className="text-black font-semibold text-4xl mb-3 hover:text-gray">
             ABOUT
           </Link>
           <button
@@ -58,11 +58,11 @@ const Navbar = () => {
         ""
       )}
 
-      <div className="sm:flex justify-around items-center font-poppins text-dark-gray mt-4 hidden">
+      <div className="sm:flex justify-around items-center font-poppins text-dark-gray my-4 hidden">
         <ul className="flex items-center gap-10">
           <Link to='/' className="text-xl rotate-3 text-orange">NSPLASH</Link>
           <Link to='/'>Home</Link>
-          <Link to='/'>About</Link>
+          <Link to='/about'>About</Link>
         </ul>
         <div>
           <button className="border border-solid border-slate-600 py-2 px-5 rounded-md shadow-xl">

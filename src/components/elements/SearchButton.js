@@ -1,14 +1,16 @@
 import React from "react";
 
-const SearchButton = () => {
+const SearchButton = ({value, onchange}) => {
   return (
-    <div class="flex">
+    <div className="flex">
       <input
         type="text"
-        class="py-2 px-4 shadow-xl rounded-l"
+        className="py-2 px-4 shadow-xl rounded-l"
         placeholder="Search Images..."
+        value={value}
+        onChange={onchange}
       />
-      <button class="shadow-xl hover:bg-blue-700 text-black font-semibold py-2 px-4 rounded-r">
+      <button className="shadow-xl hover:bg-blue-700 text-black font-semibold py-2 px-4 rounded-r">
         🔍
       </button>
     </div>
