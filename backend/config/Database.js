@@ -5,4 +5,9 @@ const db = new Sequelize('upload_db', 'root', '', {
     dialect: "mysql"
 })
 
-export default db;
+const db1 = new Sequelize('auth_db', 'root','',{
+    host: 'localhost',
+    dialect: "mysql"
+});
+
+export { db, db1 };
