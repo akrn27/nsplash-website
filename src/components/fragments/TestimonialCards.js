@@ -14,7 +14,7 @@ const TestimonialCards = ({image, heading, paragraph, name, job}) => {
       <h1 className="text-3xl font-semibold my-4 text-center">
         {heading}
       </h1>
-      <p className="text-xl mb-4 text-center">
+      <p className="text-xl mb-4 text-center whitespace-normal">
         {paragraph}
       </p>
       <p className="font-semibold text-xl mb-2">{name}</p>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({isLogin}) => {
+const Navbar = ({ isLogin, onclick, link }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -10,7 +10,9 @@ const Navbar = ({isLogin}) => {
   };
 
   // Disable Scroll when in navbar mobile screen
-  isOpen ? document.body.style.overflow = "hidden" : document.body.style.overflow = "auto"
+  isOpen
+    ? (document.body.style.overflow = "hidden")
+    : (document.body.style.overflow = "auto");
 
   return (
     <div className="w-full overflow-hidden">
@@ -36,16 +38,22 @@ const Navbar = ({isLogin}) => {
       {/* Isi Dari Burger Navbar */}
       {isOpen === true ? (
         <div className="container h-screen w-screen mx-auto flex flex-col items-center justify-center">
-          <Link to="/" className="text-black font-semibold text-4xl mb-3 hover:text-gray">
+          <Link
+            to="/"
+            className="text-black font-semibold text-4xl mb-3 hover:text-gray"
+          >
             HOME
           </Link>
-          <Link to="/about" className="text-black font-semibold text-4xl mb-3 hover:text-gray">
+          <Link
+            to="/about"
+            className="text-black font-semibold text-4xl mb-3 hover:text-gray"
+          >
             ABOUT
           </Link>
-          <button
-            onClick={toggleMenu}
-            className="focus:outline-none"
-          >
+          <button className="text-black font-semibold text-4xl mb-3 hover:text-gray uppercase">
+            {isLogin}
+          </button>
+          <button onClick={toggleMenu} className="focus:outline-none">
             <svg className="h-11 w-11 fill-current" viewBox="0 0 24 24">
               <path
                 fillRule="evenodd"
@@ -60,14 +68,21 @@ const Navbar = ({isLogin}) => {
 
       <div className="sm:flex justify-around items-center font-poppins text-dark-gray my-4 hidden">
         <ul className="flex items-center gap-10">
-          <Link to='/' className="text-xl rotate-3 text-orange">NSPLASH</Link>
-          <Link to='/'>Home</Link>
-          <Link to='/about'>About</Link>
+          <Link to="/" className="text-xl rotate-3 text-orange">
+            NSPLASH
+          </Link>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
         </ul>
         <div>
-          <button className="border border-solid border-slate-600 py-2 px-5 rounded-md shadow-xl">
-            Login
-          </button>
+          <Link to={link}>
+            <button
+              className="border border-solid border-slate-600 py-2 px-5 rounded-md shadow-xl"
+              onClick={onclick}
+            >
+              {isLogin}
+            </button>
+          </Link>
         </div>
       </div>
     </div>

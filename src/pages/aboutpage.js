@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/fragments/Navbar";
 import Footer from "../components/fragments/Footer";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const AboutPage = () => {
+  const [token, setToken] = useState('');
+
+  const refreshToken = async() => {
+    try {
+      const res = await axios.get('http://localhost:5000/token');
+      const decoded = jwtDecode(res.data.accessToken);
+      setToken(decoded)
+      // console.log(res)
+    }catch(error){
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    refreshToken()
+  }, [])
+
   return (
     <>
-      <Navbar />
+      {token ? <Navbar isLogin={`Hi, ${token.name}`} link={'/dashboard'} /> : <Navbar isLogin={'Login'} link={'/login'} />}
 
       <div className="flex flex-col md:flex-row font-poppins mt-8">
         <div className="shadow-2xl p-4 w-full md:w-4/6 h-72 rounded-xl mx-3 mb-8 md:mb-0 content-between flex flex-col justify-between">

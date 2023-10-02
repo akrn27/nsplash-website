@@ -7,10 +7,15 @@ import Navbar from "../components/fragments/Navbar";
 import SearchButton from "../components/elements/SearchButton";
 import Footer from "../components/fragments/Footer";
 import TestimonialCards from "../components/fragments/TestimonialCards";
+import jwtDecode from "jwt-decode";
+import { Link } from "react-router-dom";
+import './homepage.css';
+import {MdChevronLeft, MdChevronRight} from 'react-icons/md';
 
 const HomePage = () => {
   const [data, setData] = useState(null);
   const [search, setSearch] = useState("");
+  const [token, setToken] = useState("");
 
   const getData = () => {
     axios.get(`http://localhost:5000/products`).then((res) => {
@@ -22,11 +27,32 @@ const HomePage = () => {
     getData();
   }, []);
 
-  console.log(data);
+  const refreshToken = async() => {
+    try {
+      const res = await axios.get('http://localhost:5000/token');
+      // console.log(res.data.accessToken)
+      const decoded = jwtDecode(res.data.accessToken);
+      setToken(decoded)
+    }catch(error){
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    refreshToken()
+  }, [])
+
+  const slideLeft = () => {
+    let slider = document.getElementById('slider');
+    slider.scrollLeft = slider.scrollLeft - 500;
+  }
+  const slideRight = () => {
+    let slider = document.getElementById('slider');
+    slider.scrollLeft = slider.scrollLeft + 500;
+  }
 
   return (
     <>
-      <Navbar />
+      {token ? <Navbar isLogin={`Hi, ${token.name}`} link={'/dashboard'} /> : <Navbar isLogin='Login' link={'/login'} />}
       <div className="w-full flex flex-col items-center mt-10 shadow-xl">
         <div className="flex flex-col items-center mb-10">
           <h1 className="text-3xl sm:text-4xl mb-6">Inspire Through Images</h1>
@@ -97,15 +123,18 @@ const HomePage = () => {
       </div>
       {/* </div> */}
 
-      <div className="flex overflow-x-scroll my-8 p-4">
-        <div className="flex-1 flex flex-row flex-shrink-0 p-4 space-x-4">
-          <TestimonialCards image={'./testimoni/testimoni1.jpg'} heading={'Great Website'} paragraph={'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, earum fugiat.'} name={'Michael'} job={'UI UX Designer'} />
-          <TestimonialCards image={'./testimoni/testimoni2.jpg'} heading={'Love This Website'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minima excepturi doloremque dolore.'} name={'David'} job={'Frontend Developer'} />
-          <TestimonialCards image={'./testimoni/testimoni3.jpg'} heading={'Amazing Website'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minima excepturi.'} name={'Sarah'} job={'UI UX Designer'} />
-          <TestimonialCards image={'./testimoni/testimoni4.jpg'} heading={'Recommended'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minim.'} name={'Juan'} job={'Backend Developer'} />
-
+   
+        <div className="flex relative items-center p-4 my-8">
+          <MdChevronLeft onClick={slideLeft} size={40} className="cursor-pointer" />
+          <div id="slider" className="w-full h-full gap-6 overflow-x-scroll whitespace-nowrap scroll-smooth flex ">
+            <TestimonialCards image={'./testimoni/testimoni1.jpg'} heading={'Great Website'} paragraph={'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, earum fugiat.'} name={'Michael'} job={'UI UX Designer'} />
+            <TestimonialCards image={'./testimoni/testimoni2.jpg'} heading={'Love This Website'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minima excepturi doloremque dolore.'} name={'David'} job={'Frontend Developer'} />
+            <TestimonialCards image={'./testimoni/testimoni3.jpg'} heading={'Amazing Website'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minima excepturi.'} name={'Sarah'} job={'UI UX Designer'} />
+            <TestimonialCards image={'./testimoni/testimoni4.jpg'} heading={'Recommended'} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo sunt facere maxime minim.'} name={'Juan'} job={'Backend Developer'} />
+            <TestimonialCards image={'./testimoni/testimoni5.jpg'} heading={'Good Website'} paragraph={'Lorem ipsum dolor sit amet consect onuis nanasasasas elit. Illo sunt facere maxime minim.'} name={'Ahmad'} job={'Project Manager'} />
+          </div>
+          <MdChevronRight onClick={slideRight} size={40} className="cursor-pointer" />
         </div>
-      </div>
 
       <Footer />
     </>

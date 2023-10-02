@@ -1,4 +1,6 @@
-import React from "react";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Cards = ({
@@ -29,6 +31,22 @@ const Cards = ({
     }
   };
 
+  const [token, setToken] = useState("");
+
+  const refreshToken = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/token");
+      // console.log(res)
+      const decoded = jwtDecode(res.data.accessToken);
+      setToken(decoded);
+    }catch(error) {
+      console.log(error)
+    }
+  };
+  useEffect(() => {
+    refreshToken();
+  }, []);
+  
   return (
     <div className="flex flex-col content-end rounded overflow-hidden shadow-lg">
       <img
@@ -52,7 +70,7 @@ const Cards = ({
             <button className="border bg-black text-white p-3 text-center rounded-xl w-full">
               Buy Now
             </button>
-          ) : (
+          ) : token ? (
             <div className="w-full">
               <button
                 className="border bg-black text-blue p-3 text-center rounded-xl w-1/2 hover:opacity-95"
@@ -65,10 +83,14 @@ const Cards = ({
                 className="border bg-black text-red p-3 text-center rounded-xl w-1/2 hover:opacity-95"
                 onClick={deleteonclick}
                 value={deletevalue}
-              >
+                >
                 Delete
               </button>
             </div>
+          ) : (
+            <button className="border bg-black text-white p-3 text-center rounded-xl w-full">
+              Buy Now
+            </button>
           )}
         </div>
       </div>

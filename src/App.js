@@ -9,15 +9,17 @@ import Createpage from "./pages/crud/createpage";
 import EditPage from "./pages/crud/editpage";
 import { GlobalProvider } from "./context/GlobalContext";
 import ImageInfoPage from "./pages/imageinfopage";
+import RegisterPage from "./pages/registerpage";
 
 const App = () => {
   return (
     <BrowserRouter>
       <GlobalProvider>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="dashboard" element={<Dashboardpage />} />
           <Route path="/image/:id" element={<ImageInfoPage />} />
           <Route path="/create" element={<Createpage />} />
